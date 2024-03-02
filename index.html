@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TODO">
+    <meta name="author" content="TODO">
+
+	<link href="style.css" rel="stylesheet">
+	<title>Audio Transformer</title>
+
+	<script src="js/audio_demo.js"></script>
+
+  <link href="https://fonts.google
+  apis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+
+</head>
+
+<body>
+	
+<div id="outer">
+	<div id="inner">
+
+				
+			<div id="headsection"><div id="inner_headsection">
+			<h1 id="title">Mapping the Audio Landscape for Innovative Music Sample Generation</h1>
+				  
+				  
+			<h3 id="authors">Authors: anonymous</h3>
+				
+	  
+			<h2 id="abstract">Abstract</h2>
+			<p id="abstract_txt">
+				
+
+				This paper introduces the Generative Sample Map (GESAM), a novel two-stage unsupervised learning framework capable of generating high-quality and expressive audio samples for music production. Different from established generative approaches based on language models (LM) relying on descriptive texts as conditions, our proposed methods pursue a more intuitive and efficient approach by conditioning a Transformer model with latent codes learned from a Variational Autoencoder (VAE) model. By exploring a pre-trained 2D latent space from VAE, our approach allows for a more natural interaction with the model, aligning with how humans express preferences. Our results, showcased through an interactive interface, aim to expand perspectives on querying audio samples and offer a potential evolution of future digital audio workstations. We envision a more user-friendly and creative environment for music producers, allowing for seamless exploration and manipulation of audio elements.
+
+
+
+				
+				
+<!--
+% 1. Satz: Narrativ, was wird gemacht? Reason for writing/reading
+% 2. Satz: Was ist das Problem und was ist gerade Stand der Technick? +
+% 3. Satz: Was macht man anders als der Stand der Technik, was ist die eigene Methologie
+% 4. Satz: Was sind die Ergebnisse?
+% 5. Was implizieren die Ergebnisse fuer die Zukunft? How does this work add to the body of knowledge on the topic?
+
+
+This article introduces a Transformer-based model capable of generating high quality audio samples for music production by conditioning the model with a coordinate on a 2d sample map. 
+
+Especially the audio domain is difficult for generative models because of long sequence lengths. Especially for music production it is hard because samples have to have a high quality to be used within songs.
+
+State of the art approaches primarily condition sound by a text embedding which is not very suitable for musical sample generation since samples differ by nuances that can not be expressed by text. 
+It is more natural for the human to describe an abstract thing with words as 'closer to this' or 'I want something more in this direction'. 
+
+To achieve this we conditioned a transformer with a trained 2d embedding for querying audio samples more intuitively and efficient. 
+
+By our results, which we demonstrate by an interactive web-demo (LINK), we hope to broaden the perspective on how to query audio samples and how a future digital audio workstation could be. 
+-->
+
+			</p>
+			
+
+			
+			</div></div>
+
+
+
+			<div class="figure"><div class="inner_figure">
+				<a id="fig1"></a> 
+				<h3 class="figure_title"> Audio Sample Generator </h3>
+
+				<div id="selection_div">
+					<canvas id="selection_canvas"> </canvas>
+					<svg viewBox="-1 -1 2 2" id="selection_svg"> </svg>	
+				</div>
+
+				<div id="classes_div">
+					
+				</div>
+
+
+				<div class="figure_caption">
+					Our interactive model, lets you generate musical samples by querying points on a 2d plane. The trained data embedding is displayed for orientation. Click on any point by a point for playing the related sample (speaker or headphones required).
+				</div>
+
+			</div></div>
+
+			<div class="figure"><div class="inner_figure">
+				<a id="fig2"></a> 
+				<h3 class="figure_title"> Model Architecture </h3>
+
+				<img src="gfx/smap.png" alt="Model Architecture" style="width:100%;">
+
+				<div class="figure_caption">
+					This schematic depicts the training procedure of our model. In the first stage, a VAE with a 2d latent bottleneck is trained. In the second stage the Transformer model is trained with the VAE as a conditioning model.
+				</div>
+
+			</div></div>
+
+
+
+
+			<div class="figure"><div class="inner_figure">
+			<a id="citeus"></a> 
+
+			<h3 class="figure_title">Cite Us</h3>
+			<h3 id="citebox">This article needs to get accepted first, before a reference will spawn here.</h3>
+
+		</div></div>
+
+
+
+
+
+
+
+
+
+		</div> <!-- inner -->
+
+
+	</div> <!-- outer -->
+
+
+</body>
+
+
+</html>
