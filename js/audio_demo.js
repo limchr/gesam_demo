@@ -37,13 +37,61 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	svg.addEventListener('click', e => {
 			let mouse_xy = get_mouse_position(e);
-			let relative_xy = [(mouse_xy[0]/e.target.clientWidth),(mouse_xy[1]/e.target.clientHeight)];
+			let relative_xy = [(mouse_xy[0]/svg.clientWidth),(mouse_xy[1]/svg.clientHeight)];
 			relative_xy = [clamp(relative_xy[0],0.0,0.999), 1-clamp(relative_xy[1],0.0,0.999)];
 			let sn = models[active_model].num_samples;
 			let square = [Math.floor(relative_xy[0]*sn), Math.floor(relative_xy[1]*sn)];
 			let wav_path = models[active_model].path + '/samples/generated_' + pad(square[0], 5) + '_' + pad(square[1], 5) + '.wav';
 			console.log(mouse_xy[0] + ' ' + mouse_xy[1] + ' - ' + square[0] + ' ' + square[1] + ' ' + wav_path);
 			play_wav(wav_path);
+
+			circle_pos = [relative_xy[0]*2-1, (1-relative_xy[1])*2-1];
+			const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+			circle.setAttribute('cx', circle_pos[0]);
+			circle.setAttribute('cy', circle_pos[1]);
+			circle.setAttribute('r', 0.04); // Set the radius of the circles
+			
+			circle.setAttribute('fill', 'rgb(100,100,100)');
+
+			// Set the outline or stroke color and width
+			circle.setAttribute('stroke', 'black'); // Set the outline color
+			circle.setAttribute('stroke-width', 0.002); // Set the outline width
+
+
+
+			// Append the circle to the SVG
+			svg.appendChild(circle);
+
+			// Define the animation function
+			function fadeOut(element, duration) {
+				let opacity = 1;
+				const start = performance.now();
+				
+				function animate(currentTime) {
+					const elapsed = currentTime - start;
+					opacity = 1 - elapsed / duration;
+					
+					if (opacity <= 0) {
+						// Remove the circle when the animation is complete
+						svg.removeChild(element);
+					} else {
+						// Update the opacity
+						element.setAttribute('fill-opacity', opacity);
+						element.setAttribute('stroke-opacity', opacity);
+						// Request the next frame
+						requestAnimationFrame(animate);
+					}
+				}
+				
+				// Start the animation
+				requestAnimationFrame(animate);
+			}
+
+			// Call the animation function with the circle element and desired duration
+			fadeOut(circle, 1000); // 1000 milliseconds (1 second) for example
+
+
+
 		}, true);
 
 
@@ -87,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 				circle.setAttribute('cx', zx[i]);
 				circle.setAttribute('cy', zy[i]);
-				circle.setAttribute('r', 0.01); // Set the radius of the circles
+				circle.setAttribute('r', 0.012); // Set the radius of the circles
 				
 				circle.setAttribute('fill', 'rgb('+models[active_model].colors[y_numeric[i]].join(',')+')');
 

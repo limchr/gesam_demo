@@ -8,7 +8,7 @@
     <meta name="author" content="TODO">
 
 	<link href="style.css" rel="stylesheet">
-	<title>Audio Transformer</title>
+	<title>Mapping the Audio Landscape for Innovative Music Sample Generation</title>
 
 	<script src="js/audio_demo.js"></script>
 
@@ -26,17 +26,17 @@
 
 				
 			<div id="headsection"><div id="inner_headsection">
-			<h1 id="title">Mapping the Audio Landscape for Innovative Music Sample Generation</h1>
+			<h1 id="title">Mapping the Audio Landscape<br>for Innovative Music Sample Generation</h1>
 				  
 				  
-			<h3 id="authors">Authors: anonymous</h3>
+			<h3 id="authors">Authors: Christian Limberg and Zhe Zhang</h3>
 				
 	  
 			<h2 id="abstract">Abstract</h2>
 			<p id="abstract_txt">
 				
 
-				This paper introduces the Generative Sample Map (GESAM), a novel two-stage unsupervised learning framework capable of generating high-quality and expressive audio samples for music production. Different from established generative approaches based on language models (LM) relying on descriptive texts as conditions, our proposed methods pursue a more intuitive and efficient approach by conditioning a Transformer model with latent codes learned from a Variational Autoencoder (VAE) model. By exploring a pre-trained 2D latent space from VAE, our approach allows for a more natural interaction with the model, aligning with how humans express preferences. Our results, showcased through an interactive interface, aim to expand perspectives on querying audio samples and offer a potential evolution of future digital audio workstations. We envision a more user-friendly and creative environment for music producers, allowing for seamless exploration and manipulation of audio elements.
+				This paper introduces the Generative Sample Map (GESAM), a novel two-stage unsupervised learning framework capable of generating high-quality and expressive audio samples for music production. Recent generative approaches based on language models rely on text prompts as conditions. However, fine nuances in musical audio samples can hardly be described in the modality of text. For addressing this shortcoming, we propose to learn a highly descriptive latent 2D audio map by a Variational Autoencoder (VAE) which is then utilized for conditioning a Transformer model. We demonstrate the Transformer model's ability to achieve high generation quality and compare its performance against two baseline models. By selecting points on the map that compresses the manifold of the audio training set into 2D, we enable a more natural interaction with the model. We showcase this capability through an interactive demo interface, which is accessible on this website.
 
 
 
@@ -85,7 +85,7 @@ By our results, which we demonstrate by an interactive web-demo (LINK), we hope 
 
 
 				<div class="figure_caption">
-					Our interactive model, lets you generate musical samples by querying points on a 2d plane. The trained data embedding is displayed for orientation. Click on any point by a point for playing the related sample (speaker or headphones required).
+					Our interactive interface, lets you generate musical samples by selecting points on a 2d plane. A fraction of the training data is displayed for orientation. The background is colored in the average colors of the nearest neighboring samples. Click on a certain location for playing the related sample (speaker or headphones required).
 				</div>
 
 			</div></div>
@@ -94,7 +94,7 @@ By our results, which we demonstrate by an interactive web-demo (LINK), we hope 
 				<a id="fig2"></a> 
 				<h3 class="figure_title"> Model Architecture </h3>
 
-				<img src="gfx/smap.png" alt="Model Architecture" style="width:100%;">
+				<img src="gfx/gesam.png" alt="Model Architecture" style="width:100%;">
 
 				<div class="figure_caption">
 					This schematic depicts the training procedure of our model. In the first stage, a VAE with a 2d latent bottleneck is trained. In the second stage the Transformer model is trained with the VAE as a conditioning model.
