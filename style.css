@@ -139,6 +139,9 @@ background-color: rgb(245,245,245);
 	color: black;
 	line-height: 100%;
   font-family: monospace;
+  display: block;
+  white-space: pre-wrap   
+
 }
 
 
