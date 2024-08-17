@@ -21,6 +21,15 @@ var models = {
 		'path': 'data/models/drums',
 		'num_samples': 200, // number of audio samples for x and y dimension 
 		'draw_prerendered_image': true,
+		'bg_images': {
+			'Classifier': 'map.png',
+			'TSNE': 'feature_im_tsne.png',
+			'Energy': 'feature_im_energy.png',
+			'Spectral Bandwidth': 'feature_im_spectral_bandwidth.png',
+			'Spectral Centroid': 'feature_im_spectral_centroid.png',
+			'Spectral Flatness': 'feature_im_spectral_flatness.png',
+			'Spectral Rolloff': 'feature_im_spectral_rolloff.png',
+		},
 	}
 } 
 
@@ -34,6 +43,59 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	let s = square_elem(canvas);
 	square_elem(svg, s);
 	square_elem(document.getElementById('selection_div'), s);
+
+
+	// Get the div where the selection element will be placed
+	const myDiv = document.getElementById('bg_selection');
+
+	// Create the selection element
+	const selectElement = document.createElement('select');
+
+	const bgi = models[active_model]['bg_images'];
+
+	// Fill the selection element with options from the images array
+	for (const [key, value] of Object.entries(bgi)) {
+
+		const option = document.createElement('option');
+		option.value = value;
+		option.text = key;
+		selectElement.appendChild(option);
+	};
+
+	// Append the selection element to the div
+	myDiv.appendChild(selectElement);
+
+
+	selectElement.onchange = function() {
+		img = new Image();
+		img.src = models[active_model].path+'/'+this.value;
+		img.onload = function() {
+			set_canvas_image(canvas,canvas_context,this, this.width);
+		};
+	};
+
+	var train_data_shown = true;
+	document.getElementById('toggledata').onclick = function() {
+		const childElements = svg.querySelectorAll('*');
+		let display_mode = 'initial';
+		if(train_data_shown) {
+			display_mode = 'none';
+		}
+		train_data_shown = !train_data_shown;
+		childElements.forEach(child => {
+			child.style.display = display_mode;
+		});
+
+	}
+
+
+
+
+
+
+
+
+
 
 	svg.addEventListener('click', e => {
 			let mouse_xy = get_mouse_position(e);
