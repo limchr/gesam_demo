@@ -4,6 +4,8 @@ var canvas = null;
 var canvas_context = null
 var svg = null;
 
+var check_overlay = null;
+
 // specific variables for one generator model visualization
 var models = {
 	'Drums': {
@@ -22,19 +24,26 @@ var models = {
 		'num_samples': 200, // number of audio samples for x and y dimension 
 		'draw_prerendered_image': true,
 		'bg_images': {
-			'Classifier': 'map.png',
-			'TSNE': 'feature_im_tsne.png',
-			'Energy': 'feature_im_energy.png',
-			'Spectral Bandwidth': 'feature_im_spectral_bandwidth.png',
-			'Spectral Centroid': 'feature_im_spectral_centroid.png',
-			'Spectral Flatness': 'feature_im_spectral_flatness.png',
-			'Spectral Rolloff': 'feature_im_spectral_rolloff.png',
+			'Energy': 'energy.png',
+			'Spectral Bandwidth': 'spectral_bandwidth.png',
+			'Spectral Centroid': 'spectral_centroid.png',
+			'Spectral Flatness': 'spectral_flatness.png',
+			'Spectral Rolloff': 'spectral_rolloff.png',
 		},
 	}
 } 
 
 var active_model = 'Drums';
+var active_div = 'classifier_selection';
 
+
+function change_img(img_path) {
+	img = new Image();
+	img.src = img_path;
+	img.onload = function() {
+		set_canvas_image(canvas,canvas_context,this, this.width);
+	};
+}
 
 document.addEventListener("DOMContentLoaded", function(event) {
 	canvas = document.getElementById(cid);
@@ -45,11 +54,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	square_elem(document.getElementById('selection_div'), s);
 
 
+	check_overlay = document.getElementById('overlaymaps');
+
 	// Get the div where the selection element will be placed
-	const myDiv = document.getElementById('bg_selection');
+	const feature_selection = document.getElementById('bg_selection');
 
 	// Create the selection element
 	const selectElement = document.createElement('select');
+	selectElement.id = 'feature_dropdown';
 
 	const bgi = models[active_model]['bg_images'];
 
@@ -63,29 +75,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	};
 
 	// Append the selection element to the div
-	myDiv.appendChild(selectElement);
+	feature_selection.appendChild(selectElement);
 
 
 	selectElement.onchange = function() {
-		img = new Image();
-		img.src = models[active_model].path+'/'+this.value;
-		img.onload = function() {
-			set_canvas_image(canvas,canvas_context,this, this.width);
-		};
+		change_feature_image();
+	};
+	check_overlay.onchange = function() {
+		change_feature_image();
 	};
 
-	var train_data_shown = true;
-	document.getElementById('toggledata').onclick = function() {
-		const childElements = svg.querySelectorAll('*');
-		let display_mode = 'initial';
-		if(train_data_shown) {
-			display_mode = 'none';
-		}
-		train_data_shown = !train_data_shown;
-		childElements.forEach(child => {
-			child.style.display = display_mode;
-		});
 
+	document.getElementById('toggledata').onclick = function() {
+		if(document.getElementById('toggledata').checked) {
+			display_data_points();
+		} else {
+			hide_data_points();
+		}
 	}
 
 
@@ -160,15 +166,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 	if(models[active_model]['draw_prerendered_image']) {
-		img = new Image();
-		img.src = models[active_model].path+'/map.png';
-		img.onload = function() {
-			set_canvas_image(canvas,canvas_context,this, this.width);
-		};
+		let img_path = models[active_model].path+'/map.png';
+		change_img(img_path);
 	
 	}
 
-	
+
+
 
 
 
@@ -286,10 +290,71 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		classesdiv.appendChild(div);
 	}
 
+	activateDiv('classifier_selection');
 
 
+}); // DOMContentLoaded
 
-});
+
+function display_data_points() {change_data_point_display_mode('initial');}
+function hide_data_points() {change_data_point_display_mode('none');}
+function change_data_point_display_mode(display_mode) {
+	const childElements = svg.querySelectorAll('*');
+	childElements.forEach(child => {
+		child.style.display = display_mode;
+	});
+}
+
+function change_feature_image() {
+	let file_prefix = 'feature_im_';
+	if(check_overlay.checked) {
+		file_prefix = 'feature_cim_'
+	}
+	let img_path = models[active_model].path+'/'+file_prefix+document.getElementById('feature_dropdown').value;
+	change_img(img_path);
+
+}
+
+function activateDiv(divId) {
+	var divs = document.querySelectorAll('.content-div');
+	var selections = document.querySelectorAll('.selection');
+
+	divs.forEach(function(div) {
+		if (div.id === divId) {
+			div.classList.add('active');
+		} else {
+			div.classList.remove('active');
+		}
+	});
+
+	selections.forEach(function(selection) {
+		if (selection.nextElementSibling.id === divId) {
+			selection.classList.add('active-selection');
+		} else {
+			selection.classList.remove('active-selection');
+		}
+	});
+	active_div = divId;
+
+	if(active_div == 'classifier_selection') {
+		if(document.getElementById('toggledata').checked) {
+			display_data_points();
+		} else {
+			hide_data_points();
+		}
+
+		change_img(models[active_model].path+'/'+'map.png');
+
+	} else if (active_div == 'feature_selection') {
+		hide_data_points();
+		change_feature_image();
+	} else if (active_div == 'tsne_selection') {
+		hide_data_points();
+		change_img(models[active_model].path+'/'+'tsne.png');
+
+	}
+}
+
 
 
 //

@@ -7,6 +7,12 @@
     <meta name="description" content="TODO">
     <meta name="author" content="TODO">
 
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+
+
 	<link href="style.css" rel="stylesheet">
 	<title>Mapping the Audio Landscape for Innovative Music Sample Generation</title>
 
@@ -26,7 +32,7 @@
 
 				
 			<div id="headsection"><div id="inner_headsection">
-			<h1 id="title">Mapping the Audio Landscape<br>for Innovative Music Sample Generation</h1>
+			<h1 id="title">Transformer-based Audio Generation conditioned by 2D Latent Maps - A Demonstration</h1>
 				  
 				  
 			<h3 id="authors">Authors: Christian Limberg and Zhe Zhang</h3>
@@ -36,7 +42,7 @@
 			<p id="abstract_txt">
 				
 
-				This paper introduces the Generative Sample Map (GESAM), a novel two-stage unsupervised learning framework capable of generating high-quality and expressive audio samples for music production. Recent generative approaches based on language models rely on text prompts as conditions. However, fine nuances in musical audio samples can hardly be described in the modality of text. For addressing this shortcoming, we propose to learn a highly descriptive latent 2D audio map by a Variational Autoencoder (VAE) which is then utilized for conditioning a Transformer model. We demonstrate the Transformer model's ability to achieve high generation quality and compare its performance against two baseline models. By selecting points on the map that compresses the manifold of the audio training set into 2D, we enable a more natural interaction with the model. We showcase this capability through an interactive demo interface, which is accessible on this website.
+				This paper presents a demonstration of an improved framework for audio sample generation using interactive 2D latent maps. Building upon the foundational work "Mapping the Audio Landscape for Innovative Music Sample Generation," we enhance the framework by introducing visualization techniques for exploring the 2D audio landscape through different audio features such as energy and bandwidth. Additionally, we train a t-SNE embedding over these features to create a more abstract visualization of the audio samples on the map. This demo also significantly improves usability and user interactivity, allowing for a more intuitive and efficient exploration of the generated audio samples. The demo on this website showcases these improvements in real-time, providing users with an enhanced interface for generating high-quality audio samples.
 
 
 
@@ -74,20 +80,60 @@ By our results, which we demonstrate by an interactive web-demo (LINK), we hope 
 				<a id="fig1"></a> 
 				<h3 class="figure_title"> Audio Sample Generator </h3>
 
+
+
+
+
+
+				<div class="selection" onclick="activateDiv('classifier_selection')">Display Classifier Colors</div>
+				<div id="classifier_selection" class="content-div">
+
+					<div class="explanation">
+						We trained a classifier that can distinguishes the classes we trained the transformer model with. We color the embedding space with the corresponding class color by using a 5 nearest neighbor classifier, where we mix the colors of the 5 nearest neighbors for creating a visual transition between classes. 
+					</div>
+
+					<h4>Sample Classes: </h4>
+					<div id="classes_div">
+					
+					</div>
+
+					<input type="checkbox" id="toggledata" checked/> Show/Hide Training Data
+
+
+				</div>
+			
+				<div class="selection" onclick="activateDiv('feature_selection')">Display Audio Features</div>
+				<div id="feature_selection" class="content-div">
+					
+					<div class="explanation">
+						We computed 5 different audio features and use a color map for visualizing each one as a background image for orientation. 
+					</div>
+
+					<div id="bg_selection">
+
+					</div>
+
+					<input type="checkbox" id="overlaymaps"/>Overlay audio features and classifier map
+
+
+				</div>
+			
+				<div class="selection" onclick="activateDiv('tsne_selection')">3D T-SNE</div>
+				<div id="tsne_selection" class="content-div">
+
+					<div class="explanation">
+						Based on the 5 audio features we trained a 3D T-SNE embedding which we map to RGB space for visualizing a richer, but more abstract map of the sound scape. 
+					</div>
+
+
+				</div>
+			
+
 				<div id="selection_div">
 					<canvas id="selection_canvas"> </canvas>
 					<svg viewBox="-1 -1 2 2" id="selection_svg"> </svg>	
 				</div>
 
-				<div id="classes_div">
-					
-				</div>
-
-				<div id="bg_selection">
-
-				</div>
-
-				<button id="toggledata">Show/Hide Training Data</button>
 
 
 				<div class="figure_caption">
